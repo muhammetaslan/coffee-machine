@@ -3,17 +3,22 @@ package muhammet.aslan;
 import muhammet.aslan.enums.DrinkType;
 import muhammet.aslan.model.Drink;
 import muhammet.aslan.model.DrinkFactory;
+import muhammet.aslan.utils.CoffeeMaterialStock;
 import muhammet.aslan.utils.CustomerMenu;
 
+import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CoffeeShop {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
 
         DrinkFactory drinkFactory = new DrinkFactory();
         Scanner scanner = new Scanner(System.in);
+
+        // Prepare the database and coffee meterials, when starting the project
+        CoffeeMaterialStock.getInstance().insertDataIntoCoffeeMaterialStock();
 
         while (true) {
             CustomerMenu.displayMenu();
@@ -26,7 +31,7 @@ public class CoffeeShop {
                 }
 
                 if (choice < 1 || choice > CustomerMenu.productCounter) {
-                    System.out.println("Geçersiz bir seçim yaptınız!");
+                    System.out.println("Geçersiz bir seçim yaptınız!\n\n");
                     continue;
                 }
 

@@ -17,7 +17,6 @@ public class CoffeeShop {
 
         while (true) {
             CustomerMenu.displayMenu();
-            System.out.print("Lütfen içmek istediğiniz kahvenin numarasını giriniz (Çıkmak için '0' tuşlayınız): ");
             try{
                 int choice = scanner.nextInt();
 
@@ -32,7 +31,6 @@ public class CoffeeShop {
                 }
 
                 Drink orderedDrink = drinkFactory.createDrink( DrinkType.values()[choice - 1]);
-
                 orderedDrink.prepare();
 
                 System.out.println("Teşekkürler kahveniz hazırlanıyor.");

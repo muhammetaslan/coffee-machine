@@ -27,7 +27,7 @@ public class CoffeeMaterialManagement {
     }
 
     // Drop and create new database, when application started
-    private void createCoffeeStockTable() throws SQLException {
+    public void createCoffeeStockTable() throws SQLException {
         String dropSql = "DROP TABLE IF EXISTS CoffeeMaterialStock";
         String createSql  = "CREATE TABLE IF NOT EXISTS CoffeeMaterialStock (" +
                 "id INT PRIMARY KEY AUTO_INCREMENT," +

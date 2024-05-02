@@ -7,6 +7,7 @@ public enum DrinkType {
     caffelatte,
     mocha,
     americano,
+    unknown,
     hotwater
 
 }

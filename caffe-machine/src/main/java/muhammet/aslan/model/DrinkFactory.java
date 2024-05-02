@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DrinkFactory {
+
     private static final Map<DrinkType, Class<? extends Drink>> drinkClasses = new HashMap<>();
 
     static {
@@ -21,19 +22,19 @@ public class DrinkFactory {
         drinkClasses.put(DrinkType.hotwater, HotWater.class);
     }
 
-    public Drink createDrink(DrinkType drinkType) {
+    public Drink createDrink(Recipe recipe, DrinkType drinkType) {
         Class<? extends Drink> drinkClass = drinkClasses.get(drinkType);
         if (drinkClass == null) {
             throw new IllegalArgumentException("Invalid drink type: " + drinkType.name());
         }
         try {
-            return drinkClass.getConstructor().newInstance();
+            return drinkClass.getConstructor(Recipe.class).newInstance(recipe);
         } catch (InstantiationException | IllegalAccessException e) {
             throw new RuntimeException("Error creating drink instance", e);
         } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("NoSuchMethodException in createDrink", e);
         } catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("InvocationTargetException in createDrink", e);
         }
     }
 

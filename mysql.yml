@@ -1,0 +1,35 @@
+version: '3.3'
+
+services:
+  mysql:
+    container_name: mysql
+    hostname: mysql
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql_pass
+      MYSQL_DATABASE: CoffeeShopDB
+      MYSQL_USER: aslan
+      MYSQL_PASSWORD: aslan123
+    volumes:
+      - mysql-data:/var/lib/mysql
+    expose:
+      - 3306
+    ports:
+      - 3306:3306
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 20s
+        max_attempts: 3
+        window: 120s
+      resources:
+        reservations:
+          cpus: "0.50"
+          memory: 512M
+        limits:
+          cpus: "1.0"
+          memory: 1G
+volumes:
+  mysql-data:
+    driver: local

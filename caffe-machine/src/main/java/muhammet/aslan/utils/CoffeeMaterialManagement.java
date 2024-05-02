@@ -7,7 +7,7 @@ import java.util.Map;
 public class CoffeeMaterialManagement {
 
     /*
-    * Application that connects to an H2 database,
+    * Application that connects to an Mysql database,
     * creates a CoffeeMaterialStock table,
     * and inserts data into it using the singleton pattern for the database connection
     * */
@@ -26,6 +26,7 @@ public class CoffeeMaterialManagement {
         return instance;
     }
 
+    // Drop and create new database, when application started
     private void createCoffeeStockTable() throws SQLException {
         String dropSql = "DROP TABLE IF EXISTS CoffeeMaterialStock";
         String createSql  = "CREATE TABLE IF NOT EXISTS CoffeeMaterialStock (" +
@@ -57,6 +58,7 @@ public class CoffeeMaterialManagement {
         }
     }
 
+    // get the values of the each meterials in the database
     public Map<String, Integer> getDataFromCoffeeMaterialStock() throws SQLException {
         String sql = "SELECT material, quantity FROM CoffeeMaterialStock";
         Map<String, Integer> stockMap = new HashMap<>();
@@ -67,6 +69,16 @@ public class CoffeeMaterialManagement {
             }
         }
         return stockMap;
+    }
+
+    // update the stock of the meterial
+    public void updateQuantityInCoffeeMaterialStock(String material, int newQuantity) throws SQLException {
+        String sql = "UPDATE CoffeeMaterialStock SET quantity = ? WHERE material = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, newQuantity);
+            pstmt.setString(2, material);
+            pstmt.executeUpdate();
+        }
     }
 
 }

@@ -22,6 +22,7 @@ public class DrinkFactory {
         drinkClasses.put(DrinkType.hotwater, HotWater.class);
     }
 
+    // createDrink create and return the method for the given class tpyes
     public Drink createDrink(Recipe recipe, DrinkType drinkType) {
         Class<? extends Drink> drinkClass = drinkClasses.get(drinkType);
         if (drinkClass == null) {

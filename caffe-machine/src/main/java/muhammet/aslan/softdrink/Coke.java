@@ -1,16 +1,24 @@
 package muhammet.aslan.softdrink;
 
 import muhammet.aslan.model.Drink;
+import muhammet.aslan.model.Ingredient;
+import muhammet.aslan.model.Recipe;
+
+import java.util.List;
+import java.util.Map;
 
 /*
  * This class developed for testing purposes.
  * To show that the project can be easily expanded with the abstraction layer.
  * */
 
-public class Coke implements Drink {
+public class Coke extends Drink {
 
-    public Coke(){
+    private Recipe recipe;
+
+    public Coke(Recipe recipe){
         super();
+        this.recipe = recipe;
     }
 
     @Override
@@ -18,23 +26,28 @@ public class Coke implements Drink {
         return 30;
     }
 
-    @Override
-    public String getDescription() {
-        return "Coke is not good for healthy life...";
-    }
 
     @Override
-    public boolean checkRawMaterial() {
-        return false;
-    }
-
-    @Override
-    public void prepare() {
-        System.out.println("Coke is preparing...");
+    public void prepare(Map<String, Integer> stockMeterialMap) {
+        System.out.println("Teşekkürler Coke hazırlanıyor.");
     }
 
     @Override
     public void giveOrderInfo() {
+        System.out.println("****************************************************");
+        System.out.println("Coke seçtiniz. Bu içeceğimizin içeriği şu şekildedir\n");
+        List<Ingredient> ingredients = getRecipe().getIngredients();
+        for (Ingredient ingredient : ingredients) {
+            System.out.println(ingredient.getQuantity() + " doz " + ingredient.getName());
+        }
+        System.out.println("*****************************************************");
+    }
 
+    public Recipe getRecipe() {
+        return recipe;
+    }
+
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
     }
 }

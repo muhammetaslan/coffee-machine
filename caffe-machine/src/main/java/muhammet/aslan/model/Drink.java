@@ -1,14 +1,59 @@
 package muhammet.aslan.model;
 
-public interface Drink {
+import muhammet.aslan.utils.CoffeeMaterialManagement;
 
-    int getPrice();
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
-    String getDescription();
+public abstract class Drink {
 
-    boolean checkRawMaterial();
+    private Recipe recipe;
 
-    void prepare();
+    public abstract int getPrice();
 
-    void giveOrderInfo();
+    public abstract void prepare(Map<String, Integer> stockMeterialMap) throws SQLException;
+
+    public abstract void giveOrderInfo();
+
+    // this method control the product recipe requirenments and current stock
+    public boolean checkRawMaterial(Recipe recipe, Map<String, Integer> stockMeterialMap) {
+        List<Ingredient> ingredients = recipe.getIngredients();
+        for (Ingredient ingredient : ingredients) {
+            String meterialName = ingredient.getName();
+            int quantity = ingredient.getQuantity();
+            if (stockMeterialMap.containsKey(meterialName)) {
+                int stockQuantity = stockMeterialMap.get(meterialName);
+                if (stockQuantity < quantity) {
+                    System.out.println("yeterli " + meterialName +  " malzeme yok. Gerekli olan: " + quantity + ", Mevcut: " + stockQuantity);
+                    return true;
+                }
+            } else {
+                System.out.println(meterialName + " stok yok.");
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void fillHotWater(String meterial, int quantity) throws SQLException {
+        CoffeeMaterialManagement.getInstance().updateQuantityInCoffeeMaterialStock(meterial,quantity);
+    }
+
+    public void fillEspresso(String meterial, int quantity) throws SQLException {
+        CoffeeMaterialManagement.getInstance().updateQuantityInCoffeeMaterialStock(meterial,quantity);
+    }
+
+    public void fillSteamedMilk(String meterial, int quantity) throws SQLException {
+        CoffeeMaterialManagement.getInstance().updateQuantityInCoffeeMaterialStock(meterial,quantity);
+    }
+
+    public void fillMilkFoam(String meterial, int quantity) throws SQLException {
+        CoffeeMaterialManagement.getInstance().updateQuantityInCoffeeMaterialStock(meterial,quantity);
+    }
+
+    public void fillHotChocolate(String meterial, int quantity) throws SQLException {
+        CoffeeMaterialManagement.getInstance().updateQuantityInCoffeeMaterialStock(meterial,quantity);
+    }
 }
